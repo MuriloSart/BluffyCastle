@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 import game.collisions.BodyBuilder;
 
 public class Player extends BodyBuilder implements Disposable
-{	
+{
 	private Sprite sprite;
 	private float density = 0f;
 	private float friction = 0.2f;

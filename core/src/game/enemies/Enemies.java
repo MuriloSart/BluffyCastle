@@ -1,6 +1,7 @@
 package game.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -20,12 +21,13 @@ public class Enemies extends BodyBuilder implements Disposable
 	public float x = 0;
 	public float y = 80;
 	
-	private float cd = 2;
-	private float time = cd;
+//	private float cd = 2;
+//	private float time = cd;
 	
 	public Enemies(World world) 
 	{
 		super(world);
+		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody);
 	}
 
 	@Override
