@@ -25,7 +25,7 @@ public class BodyBuilder
 		this.world = world;
 	}
 
-	protected void setProperties(float density, float friction, float restitution, float radius, float x, float y, BodyDef.BodyType bodyType)
+	public void setProperties(float density, float friction, float restitution, float radius, float x, float y, BodyDef.BodyType bodyType)
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial
@@ -44,7 +44,7 @@ public class BodyBuilder
 		shape.dispose();
 	}
 
-	protected void setProperties(float density, float friction, float restitution, float hx, float hy, float x, float y, BodyDef.BodyType bodyType) 
+	public void setProperties(float density, float friction, float restitution, float hx, float hy, float x, float y, BodyDef.BodyType bodyType) 
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial

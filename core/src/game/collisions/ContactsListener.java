@@ -18,8 +18,6 @@ public class ContactsListener implements ContactListener
 		if(fa == null || fb == null) return;
 		if(fa.getUserData() == null || fb.getUserData() == null) return;
 		
-		System.out.println("Colidiu");
-		
 	}
 
 	@Override

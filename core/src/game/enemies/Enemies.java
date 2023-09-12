@@ -1,39 +1,57 @@
 package game.enemies;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import static game.helper.RandomNumber.CustomRandom;
+
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
-import game.collisions.BodyBuilder;
-
-public class Enemies extends BodyBuilder implements Disposable
+public class Enemies extends EnemyBase
 {
-
-	private Sprite sprite;
+	Array<EnemyBase> stringArray = new Array<EnemyBase>();
 	
-	private float density = 0f;
-	private float friction = 0.2f;
-	private float restitution = 0;
-	private float width = 20;
-	private float height = 20;
-	
-	public float x = 0;
-	public float y = 80;
-	
-//	private float cd = 2;
-//	private float time = cd;
+	public int enemyAmount = 3;
 	
 	public Enemies(World world) 
 	{
 		super(world);
-		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody);
+		for(int i = 0; i < enemyAmount; i++) 
+		{
+			addEnemy();
+			setEnemy(stringArray.get(i));
+		}
 	}
-
-	@Override
-	public void dispose() 
+	
+	public long spawnEnemies(long cd, long startTime)
 	{
-		sprite.getTexture().dispose();
+		long currentTime = TimeUtils.millis();
+        long elapsedTime = currentTime - startTime;
+		System.out.println(elapsedTime);
+		if(elapsedTime > cd)
+		{
+			addEnemy();
+			setEnemy(stringArray.get(stringArray.size - 1));
+			startTime = TimeUtils.millis();
+		}
+		return startTime;
 	}
-
+	
+	public void createEnemy()
+	{
+		addEnemy();
+		setEnemy(stringArray.get(stringArray.size));
+	}
+	
+	public void setEnemy(EnemyBase enemy)
+	{
+		y = CustomRandom(50.0f, 70.0f);
+		enemy.setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody);
+	}
+	
+	public void addEnemy()
+	{
+		EnemyBase enemy = new EnemyBase(world);
+		stringArray.add(enemy);
+	}
 }

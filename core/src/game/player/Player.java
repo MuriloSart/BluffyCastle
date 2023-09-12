@@ -22,7 +22,7 @@ public class Player extends BodyBuilder implements Disposable
 	public float x = 0;
 	public float y = 80;
 	
-
+	//velocidade do player
 	private float maxVelocity = 10;
 	private float velocity = 0;
 	private float aceleracao = 1f;
