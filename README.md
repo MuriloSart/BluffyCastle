@@ -1,5 +1,5 @@
 # BluffyCastle
- Este um jogo feito em **Java** Para um trabalho no 3 semestre da faculdade, seu objetivo é estudar **Programação Orientada a Objetos e seus recursos.**
+ Este e um jogo feito em **Java** Para um trabalho no 3 semestre da faculdade, seu objetivo é estudar **Programação Orientada a Objetos e seus recursos.**
  
 ## Recursos Usados
 Para desenvolvê-lo utilizei do Framework **libgdx** para desenvolver a janela e suas tecnologias, e sua extensão **Box2D** para aplicar física parecida com a da Unity.
