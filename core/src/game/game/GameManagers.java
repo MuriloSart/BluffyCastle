@@ -88,8 +88,11 @@ public class GameManagers extends Game
 		
 		batch.end();
 		
-		player.handleMoviment(attackBox);
+		playerAttack();
+		player.handleInputs(attackBox);
 	}
+	
+	
 	
 	private void update()
 	{
@@ -108,15 +111,18 @@ public class GameManagers extends Game
 	{
 		camera.position.x = player.body.getPosition().x * PPM;
 		camera.position.y = player.body.getPosition().y * PPM;
-		
 		camera.update();
 	}
 	
-	@Override
-	public void dispose ()
+	public void playerAttack()
 	{
-		batch.dispose();
-		world.dispose();
+		for(int i = 0; i < enemies.enemiesArray.size; i++)
+		{
+			if(enemies.enemiesArray.get(i).collided) 
+				if(player.canAttack)
+					enemies.enemiesArray.get(i).Attacked(player.damage, player.body.getPosition().x);		
+		}
+		player.canAttack = false;
 	}
 	
 	private void doPhysicsStep() 
@@ -130,5 +136,12 @@ public class GameManagers extends Game
 	    	world.step(timeStep, velocityIterations, positionIterations);
 	        accumulator -= timeStep;
 	    }
+	}
+	
+	@Override
+	public void dispose()
+	{
+		batch.dispose();
+		world.dispose();
 	}
 }

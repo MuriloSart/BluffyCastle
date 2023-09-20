@@ -18,13 +18,13 @@ public class Player extends BodyBuilder implements Disposable
 	private float density = 0f;
 	private float friction = 0f;
 	private float restitution = 0;
-	private float width = 20;
-	private float height = 20;
+	private float width = 32;
+	private float height = 64;
 	
 	public float x = 0;
 	public float y = 80;
 	
-	 //Moviment
+	//====== Movimento ======//
 	// Velocidade do player
 	private float maxVelocity = 10;
 	private float velocity = 0;
@@ -33,10 +33,12 @@ public class Player extends BodyBuilder implements Disposable
 	//Lidando com o Pulo
 	public boolean canJump = false;
 	
+	//====== Ataque ======//
 	// Lidando com a vida e dano do Player
 	public HealthBase healthPlayer;
 	public float damage = 5;
-	public float readjustment = 30;
+	public boolean canAttack = false;
+	public float readjustmentBox = 60;
 	
 	public Player(World world)
 	{
@@ -45,16 +47,19 @@ public class Player extends BodyBuilder implements Disposable
 		healthPlayer = new HealthBase(body, world);
 	}
 	
-	public void handleMoviment(AttackBox attackBox)
-	{
+	public void handleInputs(AttackBox attackBox)
+	{	
+		//========== Movimentando o Player ==========//
 		if (Gdx.input.isKeyPressed(Keys.A))
 		{
-			readjustment = -30;
+			if(readjustmentBox > 0)
+				readjustmentBox = -readjustmentBox;
 			velocity -= aceleracao;
 		}
 		if (Gdx.input.isKeyPressed(Keys.D)) 
 		{
-			readjustment = 30;
+			if(readjustmentBox < 0)
+				readjustmentBox = -readjustmentBox;
 			velocity += aceleracao;
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump == true)
@@ -81,18 +86,21 @@ public class Player extends BodyBuilder implements Disposable
 			velocity = -maxVelocity;
 		
 		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
-		attackBox.HandlePosition(readjustment);
+		attackBox.HandlePosition(readjustmentBox);
+		
+		//========== Gerando Ataque ==========//
+		
+		if (Gdx.input.isKeyJustPressed(Keys.E) && !canAttack)
+		{
+			canAttack = true;
+		}
 	}
 	
 	public void draw(SpriteBatch batch)
 	{
 		sprite.draw(batch);
 	}
-
-	public void Attack()
-	{
-		
-	}
+	
 	@Override
 	public void dispose() 
 	{

@@ -9,12 +9,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import game.enemies.Enemies;
 import game.enemies.EnemyBase;
 import game.game.Obstacles;
+import game.player.AttackBox;
 import game.player.Player;
 
 public class ContactsListener implements ContactListener
 {
 	private Enemies enemies;
 	private Player player;
+	public float currentForce = 3000;
+	public float forceX = currentForce;
 
 	public ContactsListener(Player player, Enemies enemies)
 	{
@@ -32,25 +35,47 @@ public class ContactsListener implements ContactListener
 		if(fa == null || fb == null) return;
 		if(fa.getUserData() == null || fb.getUserData() == null) return;
 		
+		//=============================== Colisao do Player com a Plataforma para poder Pular ===============================//
+		
 		if(fa.getUserData() instanceof Player || fb.getUserData() instanceof Player)//Definindo as colisoes do Player
 		{
-			
 			if(fa.getUserData() instanceof Obstacles || fb.getUserData() instanceof Obstacles)
 			{
 				player.canJump =  true;
 			}
+				
 		}
 		
-		if(fa.getUserData() == player)
+		//=============================== Colisao Do AttackBox com o Inimigo para dar Dano ===============================//
+		
+		if(fa.getUserData() instanceof AttackBox || fb.getUserData() instanceof AttackBox)//Definindo as colisoes do Player
+		{	
+			for(int i = 0; i < enemies.enemiesArray.size; i++)
+			{
+				if(enemies.enemiesArray.get(i).equals(fb.getUserData()) || enemies.enemiesArray.get(i).equals(fa.getUserData()))
+				{
+					enemies.enemiesArray.get(i).collided = true;
+				}
+			}
+		}
+		
+		//=============================== Colisao do Player com Inimigo ===============================//
+		
+		if(fa.getUserData() instanceof Player || fb.getUserData() instanceof Player)
 		{
-			if(enemies.enemiesArray.contains((EnemyBase) fb.getUserData(), true))
+			if(fa.getUserData() instanceof EnemyBase || fb.getUserData() instanceof EnemyBase)
 			{
 				for(int i = 0; i < enemies.enemiesArray.size; i++)
 				{
 					if(enemies.enemiesArray.get(i).equals(fb.getUserData()))
 					{
-						enemies.enemiesArray.get(i).HealthEnemy.Damage(player.damage);
-						enemies.enemiesArray.get(i).body.applyForce(new Vector2(150 , 300), new Vector2(0, 0), false);
+						if(player.body.getPosition().x >= enemies.enemiesArray.get(i).body.getPosition().x)
+							forceX = currentForce;
+						else
+							forceX = -currentForce;
+						
+						player.healthPlayer.Damage(player.damage);
+						player.body.applyForce(new Vector2(forceX , 0), new Vector2(0, 0), false);
 					}		
 				}
 			}
@@ -60,8 +85,24 @@ public class ContactsListener implements ContactListener
 	@Override
 	public void endContact(Contact contact) 
 	{
-		// TODO Auto-generated method stub
+		Fixture fa = contact.getFixtureA();
+		Fixture fb = contact.getFixtureB();
 		
+		// Conferindo se ha dados de usuario
+		if(fa == null || fb == null) return;
+		if(fa.getUserData() == null || fb.getUserData() == null) return;
+		
+		if(fa.getUserData() instanceof AttackBox || fb.getUserData() instanceof AttackBox)//Definindo as colisoes do Player
+		{	
+			for(int i = 0; i < enemies.enemiesArray.size; i++)
+			{
+				if(enemies.enemiesArray.get(i).equals(fb.getUserData()) || enemies.enemiesArray.get(i).equals(fa.getUserData()))
+				{
+					if(enemies.enemiesArray.get(i).collided)
+						enemies.enemiesArray.get(i).collided = false;
+				}	
+			}
+		}
 	}
 
 	@Override

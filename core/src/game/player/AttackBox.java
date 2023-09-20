@@ -8,12 +8,14 @@ import game.collisions.TriggerBuilder;
 public class AttackBox  extends TriggerBuilder
 {
 	private Player player;
+	private float width = 20f;
+	private float height = 64f;
 
 	public AttackBox(World world, Player player) 
 	{
 		super(world);
 		this.player = player;
-		setTrigger(5f, 20f, player.body.getPosition().x + 1 , player.body.getPosition().y, "attackBox");
+		setTrigger(width, height, player.body.getPosition().x + 1 , player.body.getPosition().y, "attackBox");
 	}
 	
 	public void HandlePosition(float readjustment)
