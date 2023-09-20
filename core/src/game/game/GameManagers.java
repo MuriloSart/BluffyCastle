@@ -11,42 +11,41 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-
 import game.collisions.ContactsListener;
 import game.enemies.Enemies;
+import game.player.AttackBox;
 import game.player.Player;
 
 public class GameManagers extends Game
 {
 	public static GameManagers INSTANCE;
 	
-	//Criando o mundo e o pintando
+	 //Criando o mundo e o pintando
 	public OrthographicCamera camera;
 	public SpriteBatch batch;
 	public World world;
 	public Box2DDebugRenderer debugRenderer;
 	
-	//Player
+	 //Player
 	Player player;
 	Enemies enemies;
 	GameScreen gameScreen;
+	AttackBox attackBox;
 		
 	//Obstáculos
 	Obstacles obstacles;
 		
-	//Config de world step
+	 //Config de world step
 	int velocityIterations = 6;
 	int positionIterations = 2;
 		
-	//Setting up DeltaTime
+	 //Setting up DeltaTime
 	private float accumulator = 0;
 	private float dt;
 	private float timeStep = 1/60f;
 	private float frameTime;
 	
-	//time to spawn enemies
-	private long startTime;
+	 //time to spawn enemies
 	public long cd = 3*1000;
 	
 	public GameManagers()
@@ -63,34 +62,33 @@ public class GameManagers extends Game
 		//setScreen(gameScreen);
 		
 		batch = new SpriteBatch();
-		
 		world = new World(new Vector2(0, -9.81f), false);
-		world.setContactListener(new ContactsListener());
-		debugRenderer = new Box2DDebugRenderer();
 		
 		obstacles = new Obstacles(world);
 		player = new Player(world);
 		enemies  = new Enemies(world);
+		attackBox = new AttackBox(world, player);
 		
-		startTime = TimeUtils.millis();
+		
+		world.setContactListener(new ContactsListener(player, enemies));
+		debugRenderer = new Box2DDebugRenderer();
 	}
 	
 	@Override
-	public void render ()
+	public void render()
 	{
 		update();
 		ScreenUtils.clear(0, 0, 0, 0);
 		//gameScreen.render(dt);
 		
 		batch.begin();
+		
 		//Area para desenhar na Janela
 		debugRenderer.render(world, camera.combined.scl(PPM));
+		
 		batch.end();
 		
-		player.handleMoviment();
-		
-		//spawn enemies
-		startTime = enemies.spawnEnemies(cd, startTime);
+		player.handleMoviment(attackBox);
 	}
 	
 	private void update()
@@ -115,7 +113,7 @@ public class GameManagers extends Game
 	}
 	
 	@Override
-	public void dispose () 
+	public void dispose ()
 	{
 		batch.dispose();
 		world.dispose();

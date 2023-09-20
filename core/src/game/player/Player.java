@@ -7,14 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
+import static game.helper.Constants.*;
 
 import game.collisions.BodyBuilder;
+import game.core.HealthBase;
 
 public class Player extends BodyBuilder implements Disposable
 {
 	private Sprite sprite;
 	private float density = 0f;
-	private float friction = 0.2f;
+	private float friction = 0f;
 	private float restitution = 0;
 	private float width = 20;
 	private float height = 20;
@@ -22,36 +24,43 @@ public class Player extends BodyBuilder implements Disposable
 	public float x = 0;
 	public float y = 80;
 	
-	//velocidade do player
+	 //Moviment
+	// Velocidade do player
 	private float maxVelocity = 10;
 	private float velocity = 0;
 	private float aceleracao = 1f;
 	
-	private float cd = 2;
-	private float time = cd;
+	//Lidando com o Pulo
+	public boolean canJump = false;
+	
+	// Lidando com a vida e dano do Player
+	public HealthBase healthPlayer;
+	public float damage = 5;
+	public float readjustment = 30;
 	
 	public Player(World world)
 	{
-		super(world);	
-		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody);
+		super(world);
+		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody, BIT_PLAYER, (short) 0, "player");	
+		healthPlayer = new HealthBase(body, world);
 	}
 	
-	public void handleMoviment()
-	{	
-		time += Gdx.graphics.getDeltaTime();
+	public void handleMoviment(AttackBox attackBox)
+	{
 		if (Gdx.input.isKeyPressed(Keys.A))
 		{
+			readjustment = -30;
 			velocity -= aceleracao;
 		}
 		if (Gdx.input.isKeyPressed(Keys.D)) 
 		{
+			readjustment = 30;
 			velocity += aceleracao;
 		}
-		if (Gdx.input.isKeyPressed(Keys.SPACE) && time > cd) 
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump == true)
 		{
-			body.applyForceToCenter( velocity, 300, false);
-			
-			time -= time;
+			body.applyForceToCenter(velocity, 300, false);
+			canJump = false;
 		}
 		
 		//Parando o player ao parar de andar
@@ -71,7 +80,8 @@ public class Player extends BodyBuilder implements Disposable
 		if(velocity < -maxVelocity)
 			velocity = -maxVelocity;
 		
-		body.setLinearVelocity( velocity, body.getLinearVelocity().y);
+		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
+		attackBox.HandlePosition(readjustment);
 	}
 	
 	public void draw(SpriteBatch batch)
@@ -79,6 +89,10 @@ public class Player extends BodyBuilder implements Disposable
 		sprite.draw(batch);
 	}
 
+	public void Attack()
+	{
+		
+	}
 	@Override
 	public void dispose() 
 	{

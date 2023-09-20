@@ -1,25 +1,24 @@
 package game.enemies;
 
-import static game.helper.RandomNumber.CustomRandom;
-
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Enemies extends EnemyBase
-{
-	Array<EnemyBase> stringArray = new Array<EnemyBase>();
+{	
+	// Instanciando Inimigos
+	public Array<EnemyBase> enemiesArray = new Array<EnemyBase>();
 	
 	public int enemyAmount = 3;
 	
 	public Enemies(World world) 
 	{
 		super(world);
+		enemiesArray.clear();
+		world.destroyBody(body);
 		for(int i = 0; i < enemyAmount; i++) 
 		{
 			addEnemy();
-			setEnemy(stringArray.get(i));
 		}
 	}
 	
@@ -27,11 +26,9 @@ public class Enemies extends EnemyBase
 	{
 		long currentTime = TimeUtils.millis();
         long elapsedTime = currentTime - startTime;
-		System.out.println(elapsedTime);
 		if(elapsedTime > cd)
 		{
 			addEnemy();
-			setEnemy(stringArray.get(stringArray.size - 1));
 			startTime = TimeUtils.millis();
 		}
 		return startTime;
@@ -40,18 +37,16 @@ public class Enemies extends EnemyBase
 	public void createEnemy()
 	{
 		addEnemy();
-		setEnemy(stringArray.get(stringArray.size));
-	}
-	
-	public void setEnemy(EnemyBase enemy)
-	{
-		y = CustomRandom(50.0f, 70.0f);
-		enemy.setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody);
 	}
 	
 	public void addEnemy()
 	{
 		EnemyBase enemy = new EnemyBase(world);
-		stringArray.add(enemy);
+		enemiesArray.add(enemy);
+	}
+	
+	public void removeEnemy(int index)
+	{
+		enemiesArray.removeIndex(index);
 	}
 }
