@@ -16,7 +16,7 @@ public class ContactsListener implements ContactListener
 {
 	private Enemies enemies;
 	private Player player;
-	public float currentForce = 3000;
+	public float currentForce = 5;//Controle de Impulso sempre que uma Entidade levar um Ataque (Faz diferenca apenas entre 0 e 10)
 	public float forceX = currentForce;
 
 	public ContactsListener(Player player, Enemies enemies)
@@ -42,8 +42,8 @@ public class ContactsListener implements ContactListener
 			if(fa.getUserData() instanceof Obstacles || fb.getUserData() instanceof Obstacles)
 			{
 				player.canJump =  true;
+				player.canRun = true;
 			}
-				
 		}
 		
 		//=============================== Colisao Do AttackBox com o Inimigo para dar Dano ===============================//
@@ -75,7 +75,8 @@ public class ContactsListener implements ContactListener
 							forceX = -currentForce;
 						
 						player.healthPlayer.Damage(player.damage);
-						player.body.applyForce(new Vector2(forceX , 0), new Vector2(0, 0), false);
+						player.body.applyForce(new Vector2(0 , 400), new Vector2(0, 0), false);
+						player.velocity = forceX;
 					}		
 				}
 			}
@@ -102,6 +103,12 @@ public class ContactsListener implements ContactListener
 						enemies.enemiesArray.get(i).collided = false;
 				}	
 			}
+		}
+		
+		if(fa.getUserData() instanceof Player || fb.getUserData() instanceof Player)//Definindo as colisoes do Player
+		{
+			if(fa.getUserData() instanceof Obstacles || fb.getUserData() instanceof Obstacles)
+				player.canRun = false;
 		}
 	}
 

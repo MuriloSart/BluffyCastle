@@ -27,8 +27,10 @@ public class Player extends BodyBuilder implements Disposable
 	//====== Movimento ======//
 	// Velocidade do player
 	private float maxVelocity = 10;
-	private float velocity = 0;
 	private float aceleracao = 1f;
+	
+	public float velocity = 0;
+	public boolean canRun = false;
 	
 	//Lidando com o Pulo
 	public boolean canJump = false;
@@ -50,26 +52,26 @@ public class Player extends BodyBuilder implements Disposable
 	public void handleInputs(AttackBox attackBox)
 	{	
 		//========== Movimentando o Player ==========//
-		if (Gdx.input.isKeyPressed(Keys.A))
+		if (Gdx.input.isKeyPressed(Keys.A) && canRun)
 		{
 			if(readjustmentBox > 0)
 				readjustmentBox = -readjustmentBox;
 			velocity -= aceleracao;
 		}
-		if (Gdx.input.isKeyPressed(Keys.D)) 
+		if (Gdx.input.isKeyPressed(Keys.D) && canRun) 
 		{
 			if(readjustmentBox < 0)
 				readjustmentBox = -readjustmentBox;
 			velocity += aceleracao;
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump == true)
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
 			body.applyForceToCenter(velocity, 300, false);
 			canJump = false;
 		}
 		
 		//Parando o player ao parar de andar
-		if(!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D))
+		if(!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D) && canRun)
 		{
 			if(velocity > 0)
 				velocity -= aceleracao;
