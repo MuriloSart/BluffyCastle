@@ -31,6 +31,7 @@ public class Player extends BodyBuilder implements Disposable
 	
 	public float velocity = 0;
 	public boolean canRun = false;
+	public boolean canWalk = true;
 	
 	//Lidando com o Pulo
 	public boolean canJump = false;
@@ -39,8 +40,8 @@ public class Player extends BodyBuilder implements Disposable
 	// Lidando com a vida e dano do Player
 	public HealthBase healthPlayer;
 	public float damage = 5;
+	public float readjustmentBox = 72;
 	public boolean canAttack = false;
-	public float readjustmentBox = 60;
 	
 	public Player(World world)
 	{
@@ -52,13 +53,13 @@ public class Player extends BodyBuilder implements Disposable
 	public void handleInputs(AttackBox attackBox)
 	{	
 		//========== Movimentando o Player ==========//
-		if (Gdx.input.isKeyPressed(Keys.A) && canRun)
+		if (Gdx.input.isKeyPressed(Keys.A)  && canWalk)
 		{
 			if(readjustmentBox > 0)
 				readjustmentBox = -readjustmentBox;
 			velocity -= aceleracao;
 		}
-		if (Gdx.input.isKeyPressed(Keys.D) && canRun) 
+		if (Gdx.input.isKeyPressed(Keys.D) && canWalk) 
 		{
 			if(readjustmentBox < 0)
 				readjustmentBox = -readjustmentBox;

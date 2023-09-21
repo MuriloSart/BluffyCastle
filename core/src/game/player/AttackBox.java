@@ -8,7 +8,7 @@ import game.collisions.TriggerBuilder;
 public class AttackBox  extends TriggerBuilder
 {
 	private Player player;
-	private float width = 20f;
+	private float width = 32f;
 	private float height = 64f;
 
 	public AttackBox(World world, Player player) 
