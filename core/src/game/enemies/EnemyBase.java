@@ -38,7 +38,7 @@ public class EnemyBase extends BodyBuilder implements Disposable
 	
 	public void Attacked(float damage, float x)
 	{
-		float currentForce = 150;
+		float currentForce = 300;
 		float forceX;
 		
 		if(x > body.getPosition().x)
@@ -49,8 +49,8 @@ public class EnemyBase extends BodyBuilder implements Disposable
 		if(collided)
 		{
 			healthEnemy.Damage(damage);
+			body.setLinearVelocity(0, 0);
 			body.applyForce(new Vector2(forceX , 300), new Vector2(0, 0), false);
-			collided = false;
 		}
 			
 	}
