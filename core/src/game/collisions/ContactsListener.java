@@ -43,6 +43,7 @@ public class ContactsListener implements ContactListener
 			{
 				player.canJump =  true;
 				player.canRun = true;
+				player.canWalk = true;
 			}
 		}
 		
@@ -73,10 +74,11 @@ public class ContactsListener implements ContactListener
 							forceX = currentForce;
 						else
 							forceX = -currentForce;
-						
-						player.healthPlayer.Damage(player.damage);
+						player.healthPlayer.Damage(enemies.enemiesArray.get(i).damage);
+						player.body.setLinearVelocity(0, 0);
 						player.body.applyForce(new Vector2(0 , 400), new Vector2(0, 0), false);
 						player.velocity = forceX;
+						player.canWalk = false;
 					}		
 				}
 			}
