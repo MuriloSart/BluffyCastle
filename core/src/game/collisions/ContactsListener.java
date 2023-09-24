@@ -79,6 +79,8 @@ public class ContactsListener implements ContactListener
 						player.body.applyForce(new Vector2(0 , 400), new Vector2(0, 0), false);
 						player.velocity = forceX;
 						player.canWalk = false;
+						player.endBreak = false;
+						player.startTime = System.currentTimeMillis();
 					}		
 				}
 			}

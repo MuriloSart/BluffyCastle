@@ -38,7 +38,7 @@ public class EnemyBase extends BodyBuilder implements Disposable
 	
 	public void Attacked(float damage, float x)
 	{
-		float currentForce = 300;
+		float currentForce = 800;
 		float forceX;
 		
 		if(x > body.getPosition().x)
