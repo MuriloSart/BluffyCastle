@@ -2,6 +2,7 @@ package game.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,7 +15,7 @@ import game.core.HealthBase;
 
 public class Player extends BodyBuilder implements Disposable
 {
-	private Sprite sprite;
+	public Sprite sprite;
 	private float density = 0f;
 	private float friction = 0f;
 	private float restitution = 0;
@@ -42,12 +43,23 @@ public class Player extends BodyBuilder implements Disposable
 	public float damage = 5;
 	public float readjustmentBox = 72;
 	public boolean canAttack = false;
+	public boolean endBreak = true;
+	
+	//Parar ao atacar
+	public long startTime;
+	public long currentTime;
+	public long elapseTime;
+	public long coolDown = 500;
 	
 	public Player(World world)
 	{
 		super(world);
 		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody, BIT_PLAYER, (short) 0, "player");	
 		healthPlayer = new HealthBase(body, world);
+		
+		Texture texture = new Texture("player.png");
+		sprite = new Sprite(texture);
+		sprite.setSize(64 / PPM, 128 / PPM);
 	}
 	
 	public void handleInputs(AttackBox attackBox)
@@ -67,7 +79,7 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
-			body.applyForceToCenter(velocity, 300, false);
+			body.applyForceToCenter(velocity, 500, false);
 			canJump = false;
 		}
 		
@@ -88,15 +100,24 @@ public class Player extends BodyBuilder implements Disposable
 		if(velocity < -maxVelocity)
 			velocity = -maxVelocity;
 		
-		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
-		attackBox.HandlePosition(readjustmentBox);
 		
 		//========== Gerando Ataque ==========//
 		
-		if (Gdx.input.isKeyJustPressed(Keys.E) && !canAttack)
+		if (Gdx.input.isKeyJustPressed(Keys.E) && !canAttack && endBreak)
 		{
 			canAttack = true;
+			endBreak = false;
+			startTime = System.currentTimeMillis();
 		}
+		currentTime = System.currentTimeMillis();
+		
+		elapseTime = currentTime - startTime;
+		if(elapseTime > coolDown)
+			endBreak = true;
+
+		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
+		sprite.setPosition(body.getPosition().x - (sprite.getWidth() / 2), body.getPosition().y - (sprite.getHeight() / 2));
+		attackBox.HandlePosition(readjustmentBox);
 	}
 	
 	public void draw(SpriteBatch batch)

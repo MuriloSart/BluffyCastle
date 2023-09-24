@@ -5,12 +5,12 @@ import static game.helper.Constants.PPM;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.ScreenUtils;
 import game.collisions.ContactsListener;
 import game.enemies.Enemies;
 import game.player.AttackBox;
@@ -61,9 +61,8 @@ public class GameManagers extends Game
 		gameScreen = new GameScreen(camera);
 		//setScreen(gameScreen);
 		
-		batch = new SpriteBatch();
 		world = new World(new Vector2(0, -9.81f), false);
-		
+		batch = new SpriteBatch();
 		obstacles = new Obstacles(world);
 		player = new Player(world);
 		enemies  = new Enemies(world);
@@ -78,18 +77,19 @@ public class GameManagers extends Game
 	public void render()
 	{
 		update();
-		ScreenUtils.clear(0, 0, 0, 0);
-		//gameScreen.render(dt);
+		player.handleInputs(attackBox);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
 		
 		//Area para desenhar na Janela
 		debugRenderer.render(world, camera.combined.scl(PPM));
+		player.draw(batch);
 		
 		batch.end();
 		
 		playerAttack();
-		player.handleInputs(attackBox);
 	}
 	
 	
@@ -100,7 +100,7 @@ public class GameManagers extends Game
 		cameraUpdate();
 		
 		batch.setProjectionMatrix(camera.combined);
-
+		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
 		{
 			Gdx.app.exit();
