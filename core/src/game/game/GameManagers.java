@@ -61,7 +61,7 @@ public class GameManagers extends Game
 		gameScreen = new GameScreen(camera);
 		//setScreen(gameScreen);
 		
-		world = new World(new Vector2(0, -9.81f), false);
+		world = new World(new Vector2(0, -19f), false);
 		batch = new SpriteBatch();
 		obstacles = new Obstacles(world);
 		player = new Player(world);
@@ -83,12 +83,10 @@ public class GameManagers extends Game
 		
 		batch.begin();
 		
-		//Area para desenhar na Janela
 		debugRenderer.render(world, camera.combined.scl(PPM));
 		player.draw(batch);
 		
 		batch.end();
-		
 		playerAttack();
 	}
 	
@@ -142,6 +140,7 @@ public class GameManagers extends Game
 	public void dispose()
 	{
 		batch.dispose();
+		debugRenderer.dispose();
 		world.dispose();
 	}
 }

@@ -16,6 +16,7 @@ import game.core.HealthBase;
 public class Player extends BodyBuilder implements Disposable
 {
 	public Sprite sprite;
+	public Texture texture;
 	private float density = 0f;
 	private float friction = 0f;
 	private float restitution = 0;
@@ -57,13 +58,13 @@ public class Player extends BodyBuilder implements Disposable
 		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody, BIT_PLAYER, (short) 0, "player");	
 		healthPlayer = new HealthBase(body, world);
 		
-		Texture texture = new Texture("player.png");
+		texture = new Texture("player.png");
 		sprite = new Sprite(texture);
-		sprite.setSize(64 / PPM, 128 / PPM);
+		sprite.setSize(64/PPM , 128/PPM);
 	}
 	
 	public void handleInputs(AttackBox attackBox)
-	{	
+	{
 		//========== Movimentando o Player ==========//
 		if (Gdx.input.isKeyPressed(Keys.A)  && canWalk)
 		{
@@ -79,7 +80,7 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
-			body.applyForceToCenter(velocity, 500, false);
+			body.applyForceToCenter(velocity, 800, false);
 			canJump = false;
 		}
 		
@@ -124,11 +125,10 @@ public class Player extends BodyBuilder implements Disposable
 	{
 		sprite.draw(batch);
 	}
-	
+
 	@Override
 	public void dispose() 
 	{
 		sprite.getTexture().dispose();
 	}
-
 }
