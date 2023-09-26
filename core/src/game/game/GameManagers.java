@@ -25,6 +25,7 @@ public class GameManagers extends Game
 	public SpriteBatch batch;
 	public World world;
 	public Box2DDebugRenderer debugRenderer;
+	private final float SCALE = 2.0f;
 	
 	 //Player
 	Player player;
@@ -57,7 +58,7 @@ public class GameManagers extends Game
 	public void create ()
 	{
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.setToOrtho(false, Gdx.graphics.getWidth() * SCALE, Gdx.graphics.getHeight() * SCALE);
 		gameScreen = new GameScreen(camera);
 		//setScreen(gameScreen);
 		
@@ -83,10 +84,11 @@ public class GameManagers extends Game
 		
 		batch.begin();
 		
-		debugRenderer.render(world, camera.combined.scl(PPM));
+		obstacles.draw(batch);
 		player.draw(batch);
-		
 		batch.end();
+		debugRenderer.render(world, camera.combined);
+		
 		playerAttack();
 	}
 	
@@ -97,7 +99,7 @@ public class GameManagers extends Game
 		doPhysicsStep();
 		cameraUpdate();
 		
-		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined.scl(PPM));
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
 		{
