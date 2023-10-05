@@ -18,9 +18,9 @@ Para mais detalhes sobre o Box2D e sua utilização, você pode acessar a sua [d
 
 **BluffyCastle** é um jogo desafiador que coloca você em uma missão de subir pelas plataformas e derrotar inimigos o mais rápido possível para alcançar a vitória.
 
-*Controles:
- *Utilize as teclas A, W, S, D para movimentar seu personagem, permitindo que você navegue habilmente pelo ambiente do jogo.
- *O ataque está à sua disposição com a tecla E, uma poderosa ferramenta para causar dano aos inimigos. Certifique-se de acertá-los com precisão para eliminar ameaças e progredir no jogo.
+Controles:
+ Utilize as teclas A, W, S, D para movimentar seu personagem, permitindo que você navegue habilmente pelo ambiente do jogo.
+ O ataque está à sua disposição com a tecla E, uma poderosa ferramenta para causar dano aos inimigos. Certifique-se de acertá-los com precisão para eliminar ameaças e progredir no jogo.
  
 Mestre o uso destes controles para conquistar o desafio de BluffyCastle e alcance a vitória com agilidade e destreza. Boa sorte!
 
