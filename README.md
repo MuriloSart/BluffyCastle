@@ -28,7 +28,7 @@ Mestre o uso destes controles para conquistar o desafio de BluffyCastle e alcanc
 Este projeto foi desenvolvido como parte de um trabalho acadêmico, mas estamos abertos a contribuições e melhorias. Se você tem alguma sugestão ou deseja colaborar no desenvolvimento do BluffyCastle, sinta-se à vontade para entrar em contato conosco.
 
 ## Créditos
-O desenvolvimento do **BluffyCastle** foi realizado por [*Murilo Aggio Sartori*](https://github.com/MuriloSart) , *Gwen Monteiro*, [*Gustavo Martins Ferrari*](https://www.linkedin.com/in/gustavoferrari21/) e _Gabriel Lima_ como parte do trabalho do terceiro semestre da faculdade FATEC - São Caetano - Antônio Russo.
+O desenvolvimento do **BluffyCastle** foi realizado por [*Murilo Aggio Sartori*](https://github.com/MuriloSart) , *Gwen Monteiro da Silva*, [*Gustavo Martins Ferrari*](https://www.linkedin.com/in/gustavoferrari21/) e [*Gabriel Souza de Lima*](https://www.linkedin.com/in/gabriel-souza-de-lima-65a665a7/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) como parte do trabalho do terceiro semestre da faculdade FATEC - São Caetano - Antônio Russo.
 
 Agradecemos ao libGDX e ao Box2D por fornecerem as ferramentas necessárias para tornar este projeto uma realidade.
 
