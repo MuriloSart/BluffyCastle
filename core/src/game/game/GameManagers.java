@@ -1,7 +1,6 @@
 package game.game;
 
 import static game.helper.Constants.PPM;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,8 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import game.collisions.ContactsListener;
-import game.enemies.Enemies;
-import game.player.AttackBox;
+import game.collisions.EndLine;
+import game.collisions.Walls;
 import game.player.Player;
 
 public class GameManagers extends Game
@@ -29,12 +28,13 @@ public class GameManagers extends Game
 	
 	 //Player
 	Player player;
-	Enemies enemies;
-	GameScreen gameScreen;
-	AttackBox attackBox;
-		
+	
+	//Paredes Laterais
+	Walls walls;
+	
 	//Obstáculos
 	Obstacles obstacles;
+	EndLine endLine;
 		
 	 //Config de world step
 	int velocityIterations = 6;
@@ -59,18 +59,15 @@ public class GameManagers extends Game
 	{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth() * SCALE, Gdx.graphics.getHeight() * SCALE);
-		gameScreen = new GameScreen(camera);
-		//setScreen(gameScreen);
 		
-		world = new World(new Vector2(0, -19f), false);
+		world = new World(new Vector2(0, -30f), false);
 		batch = new SpriteBatch();
 		obstacles = new Obstacles(world);
+		walls = new Walls(world);
 		player = new Player(world);
-		enemies  = new Enemies(world);
-		attackBox = new AttackBox(world, player);
+		endLine = new EndLine(world);
 		
-		
-		world.setContactListener(new ContactsListener(player, enemies));
+		world.setContactListener(new ContactsListener(player));
 		debugRenderer = new Box2DDebugRenderer();
 	}
 	
@@ -78,18 +75,15 @@ public class GameManagers extends Game
 	public void render()
 	{
 		update();
-		player.handleInputs(attackBox);
+		player.handleInputs();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		
 		obstacles.draw(batch);
 		player.draw(batch);
 		batch.end();
 		debugRenderer.render(world, camera.combined);
-		
-		playerAttack();
 	}
 	
 	
@@ -109,20 +103,9 @@ public class GameManagers extends Game
 	
 	public void cameraUpdate()
 	{
-		camera.position.x = player.body.getPosition().x * PPM;
-		camera.position.y = player.body.getPosition().y * PPM;
+		camera.position.x = 0;
+		camera.position.y = 0;
 		camera.update();
-	}
-	
-	public void playerAttack()
-	{
-		for(int i = 0; i < enemies.enemiesArray.size; i++)
-		{
-			if(enemies.enemiesArray.get(i).collided) 
-				if(player.canAttack)
-					enemies.enemiesArray.get(i).Attacked(player.damage, player.body.getPosition().x);		
-		}
-		player.canAttack = false;
 	}
 	
 	private void doPhysicsStep() 

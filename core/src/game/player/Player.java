@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Disposable;
 import static game.helper.Constants.*;
 
 import game.collisions.BodyBuilder;
-import game.core.HealthBase;
 
 public class Player extends BodyBuilder implements Disposable
 {
@@ -22,7 +21,7 @@ public class Player extends BodyBuilder implements Disposable
 	private float height = 64;
 	
 	public float x = 0;
-	public float y = 80;
+	public float y = 10;
 	
 	//====== Movimento ======//
 	// Velocidade do player
@@ -36,20 +35,6 @@ public class Player extends BodyBuilder implements Disposable
 	//Lidando com o Pulo
 	public boolean canJump = false;
 	
-	//====== Ataque ======//
-	// Lidando com a vida e dano do Player
-	public HealthBase healthPlayer;
-	public float damage = 5;
-	public float readjustmentBox = 72;
-	public boolean canAttack = false;
-	public boolean endBreak = true;
-	
-	//Parar ao atacar
-	public long startTime;
-	public long currentTime;
-	public long elapseTime;
-	public long coolDown = 500;
-	
 	//====== Sprite Player ======//
 	private Sprite sprite;
 	private Texture texture;
@@ -59,20 +44,16 @@ public class Player extends BodyBuilder implements Disposable
 	{
 		super(world);
 		setProperties(density, friction, restitution, width, height, x, y, BodyDef.BodyType.DynamicBody, BIT_PLAYER, (short) 0, "player");	
-		healthPlayer = new HealthBase(body, world);
-		
 		texture = new Texture("player.png");
 		sprite = new Sprite(texture);
 		sprite.setSize(width * 2 /PPM , height * 2 /PPM);
 	}
 	
-	public void handleInputs(AttackBox attackBox)
+	public void handleInputs()
 	{
 		//========== Movimentando o Player ==========//
 		if (Gdx.input.isKeyPressed(Keys.A)  && canWalk)
 		{
-			if(readjustmentBox > 0)
-				readjustmentBox = -readjustmentBox;
 			velocity -= aceleracao;
 			if(!inverted)
 			{
@@ -82,8 +63,6 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyPressed(Keys.D) && canWalk) 
 		{
-			if(readjustmentBox < 0)
-				readjustmentBox = -readjustmentBox;
 			velocity += aceleracao;
 			if(inverted)
 			{
@@ -93,7 +72,7 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
-			body.applyForceToCenter(velocity, 800, false);
+			body.applyForceToCenter(velocity, 1600, false);
 			canJump = false;
 		}
 		
@@ -115,23 +94,9 @@ public class Player extends BodyBuilder implements Disposable
 			velocity = -maxVelocity;
 		
 		
-		//========== Gerando Ataque ==========//
-		
-		if (Gdx.input.isKeyJustPressed(Keys.E) && !canAttack && endBreak)
-		{
-			canAttack = true;
-			endBreak = false;
-			startTime = System.currentTimeMillis();
-		}
-		currentTime = System.currentTimeMillis();
-		
-		elapseTime = currentTime - startTime;
-		if(elapseTime > coolDown)
-			endBreak = true;
 
 		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
 		sprite.setPosition(body.getPosition().x - (sprite.getWidth() / 2), body.getPosition().y - (sprite.getHeight() / 2));
-		attackBox.HandlePosition(readjustmentBox);
 	}
 	
 	public void draw(SpriteBatch batch)
