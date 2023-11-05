@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import game.collisions.ContactsListener;
 import game.collisions.EndLine;
+import game.collisions.Obstacles;
 import game.collisions.Walls;
 import game.player.Player;
 
@@ -33,6 +34,7 @@ public class GameManagers extends Game
 	Walls walls;
 	
 	//Obstáculos
+	SpawnPlatforms spawnPlatforms;
 	Obstacles obstacles;
 	EndLine endLine;
 		
@@ -66,9 +68,10 @@ public class GameManagers extends Game
 		walls = new Walls(world);
 		player = new Player(world);
 		endLine = new EndLine(world);
-		
-		world.setContactListener(new ContactsListener(player));
 		debugRenderer = new Box2DDebugRenderer();
+		spawnPlatforms = new SpawnPlatforms(obstacles);
+		
+		world.setContactListener(new ContactsListener(player, spawnPlatforms));
 	}
 	
 	@Override
@@ -78,6 +81,7 @@ public class GameManagers extends Game
 		player.handleInputs();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        spawnPlatforms.MovingPlatforms();
 		
 		batch.begin();
 		obstacles.draw(batch);

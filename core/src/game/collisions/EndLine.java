@@ -2,6 +2,8 @@ package game.collisions;
 
 import com.badlogic.gdx.physics.box2d.World;
 
+import game.collisions.builders.TriggerBuilder;
+
 public class EndLine extends TriggerBuilder
 {
 	private float width = 1300;

@@ -1,4 +1,4 @@
-package game.collisions;
+package game.collisions.builders;
 
 import static game.helper.Constants.PPM;
 
@@ -9,32 +9,36 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class TriggerBuilder
+public class BodyBuilder
 {
 
 	public Body body;
+	
 	protected BodyDef bodyDef;
 	public FixtureDef fixtureDef;
 
 	protected World world;
+	protected BodyDef.BodyType bodyType;
 	
-	public TriggerBuilder(World world) 
+	public BodyBuilder(World world) 
 	{
 		this.world = world;
 	}
 
-	public void setTrigger(float radius, float x, float y, String tag)
+	public void setProperties(float density, float friction, float restitution, float radius, float x, float y, BodyDef.BodyType bodyType, short cBits, short mBits, short gIndex, String tag)
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial
-		bodyDef.type = BodyDef.BodyType.StaticBody;
+		bodyDef.type = bodyType;
 		body = world.createBody(bodyDef); // Criando o Objeto "body"
 		fixtureDef = new FixtureDef();
-		fixtureDef.density = 0f; // Densidade do corpo (afeta a massa)
-		fixtureDef.friction = 0f; // Coeficiente de friccao
-		fixtureDef.restitution = 0f; // Coeficiente de restituicao (elasticidade)
-		fixtureDef.isSensor = true;
-		
+		fixtureDef.density = density; // Densidade do corpo (afeta a massa)
+		fixtureDef.friction = friction; // Coeficiente de friccao
+		fixtureDef.restitution = restitution; // Coeficiente de restituicao (elasticidade)
+		fixtureDef.filter.categoryBits = cBits;
+		fixtureDef.filter.maskBits = mBits;
+		fixtureDef.filter.groupIndex = gIndex;
+							
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius);
 		fixtureDef.shape = shape;
@@ -43,17 +47,18 @@ public class TriggerBuilder
 		shape.dispose();
 	}
 
-	public void setTrigger(float hx, float hy, float x, float y, String tag) 
+	public void setProperties(float density, float friction, float restitution, float hx, float hy, float x, float y, BodyDef.BodyType bodyType, short cBits, short gIndex, String tag) 
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial
-		bodyDef.type = BodyDef.BodyType.StaticBody;
+		bodyDef.type = bodyType;
 		body = world.createBody(bodyDef); // Criando o Objeto "body"
 		fixtureDef = new FixtureDef();
-		fixtureDef.density = 0f; // Densidade do corpo (afeta a massa)
-		fixtureDef.friction = 0f; // Coeficiente de friccao
-		fixtureDef.restitution = 0f; // Coeficiente de restituicao (elasticidade)
-		fixtureDef.isSensor = true;
+		fixtureDef.density = density; // Densidade do corpo (afeta a massa)
+		fixtureDef.friction = friction; // Coeficiente de friccao
+		fixtureDef.restitution = restitution; // Coeficiente de restituicao (elasticidade)
+		fixtureDef.filter.categoryBits = cBits; // Tipo de bit que ele eh
+		fixtureDef.filter.groupIndex = gIndex;
 
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hx / PPM, hy / PPM);

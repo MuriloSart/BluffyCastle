@@ -1,4 +1,4 @@
-package game.collisions;
+package game.collisions.builders;
 
 import static game.helper.Constants.*;
 

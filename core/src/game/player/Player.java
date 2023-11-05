@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import static game.helper.Constants.*;
 
-import game.collisions.BodyBuilder;
+import game.collisions.builders.BodyBuilder;
+
+import static game.helper.Constants.*;
 
 public class Player extends BodyBuilder implements Disposable
 {
@@ -72,7 +73,7 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
-			body.applyForceToCenter(velocity, 1600, false);
+			body.applyForceToCenter(velocity, 1200, false);
 			canJump = false;
 		}
 		
@@ -91,9 +92,7 @@ public class Player extends BodyBuilder implements Disposable
 		if(velocity > maxVelocity)
 			velocity = maxVelocity;
 		if(velocity < -maxVelocity)
-			velocity = -maxVelocity;
-		
-		
+			velocity = -maxVelocity; 
 
 		body.setLinearVelocity(velocity, body.getLinearVelocity().y);
 		sprite.setPosition(body.getPosition().x - (sprite.getWidth() / 2), body.getPosition().y - (sprite.getHeight() / 2));

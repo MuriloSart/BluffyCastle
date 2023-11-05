@@ -2,9 +2,9 @@ package game.collisions;
 
 import com.badlogic.gdx.physics.box2d.World;
 
-import game.game.Obstacles;
+import game.collisions.builders.ObstaclesBuilder;
 
-public class WallBase extends Obstacles
+public class WallBase extends ObstaclesBuilder
 { 
 	public int xWall;
 	public int yWall;

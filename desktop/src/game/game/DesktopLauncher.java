@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("BluffyCastle");
 		config.useVsync(true);
-		config.setWindowPosition(600, 280);
+		config.setWindowPosition(350, 180);
 		config.setWindowedMode(1280, 720);
 		
 		new Lwjgl3Application(new GameManagers(), config);
