@@ -14,11 +14,13 @@ public class ContactsListener implements ContactListener
 {
 	private Player player;
 	private SpawnPlatforms spawnPlatforms;
+	private Obstacles obstacles;
 
-	public ContactsListener(Player player, SpawnPlatforms spawnPlatforms)
+	public ContactsListener(Player player, SpawnPlatforms spawnPlatforms, Obstacles obstacles)
 	{
 		this.player = player;
 		this.spawnPlatforms = spawnPlatforms;
+		this.obstacles = obstacles;
 	}
 	
 	@Override
@@ -45,15 +47,11 @@ public class ContactsListener implements ContactListener
 		
 		if(fa.getUserData() instanceof EndLine || fb.getUserData() instanceof EndLine)
 		{
-			if(fa.getUserData() instanceof PlatformBase || fb.getUserData() instanceof PlatformBase)
+			for(int i = 0; i < spawnPlatforms.platforms.platformArray.size; i++)
 			{
-				spawnPlatforms.SpawningPlatforms();
-				for(int i = 0; i < spawnPlatforms.platforms.platformArray.size; i++)
+				if(obstacles.platformArray.get(i).equals(fa.getUserData()) || obstacles.platformArray.get(i).equals(fb.getUserData()))
 				{
-					if(spawnPlatforms.platforms.platformArray.get(i).equals(fb.getUserData()) || spawnPlatforms.platforms.platformArray.get(i).equals(fb.getUserData()))
-					{
-						spawnPlatforms.RespawningPlatform(i);
-					}
+					spawnPlatforms.RespawningPlatforms(i);
 				}
 			}
 		}

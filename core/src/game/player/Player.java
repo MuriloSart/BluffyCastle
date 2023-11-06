@@ -21,7 +21,7 @@ public class Player extends BodyBuilder implements Disposable
 	private float width = 32;
 	private float height = 64;
 	
-	public float x = 0;
+	public float x = 39;
 	public float y = 10;
 	
 	//====== Movimento ======//
@@ -50,7 +50,7 @@ public class Player extends BodyBuilder implements Disposable
 		sprite.setSize(width * 2 /PPM , height * 2 /PPM);
 	}
 	
-	public void handleInputs()
+	public void handleInputs()  
 	{
 		//========== Movimentando o Player ==========//
 		if (Gdx.input.isKeyPressed(Keys.A)  && canWalk)
@@ -73,7 +73,7 @@ public class Player extends BodyBuilder implements Disposable
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && canJump)
 		{
-			body.applyForceToCenter(velocity, 1200, false);
+			body.applyForceToCenter(velocity, 2000, false);
 			canJump = false;
 		}
 		

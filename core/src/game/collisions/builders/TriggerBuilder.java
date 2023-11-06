@@ -23,7 +23,7 @@ public class TriggerBuilder
 		this.world = world;
 	}
 
-	public void setTrigger(float radius, float x, float y, String tag)
+	public void setTrigger(float radius, float x, float y)
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial
@@ -43,7 +43,7 @@ public class TriggerBuilder
 		shape.dispose();
 	}
 
-	public void setTrigger(float hx, float hy, float x, float y, String tag) 
+	public void setTrigger(float hx, float hy, float x, float y) 
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(x, y); // Posicao inicial

@@ -38,7 +38,7 @@ public class BodyBuilder
 		fixtureDef.filter.categoryBits = cBits;
 		fixtureDef.filter.maskBits = mBits;
 		fixtureDef.filter.groupIndex = gIndex;
-							
+		
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius);
 		fixtureDef.shape = shape;

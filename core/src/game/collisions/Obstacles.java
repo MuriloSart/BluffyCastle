@@ -15,6 +15,13 @@ public class Obstacles
 	public Obstacles(World world) 
 	{
 		this.world = world;
+		addPlatform(38,0);
+		addPlatform(0,0);
+		addPlatform(0,0);
+		addPlatform(0,0);
+		addPlatform(0,0);
+		addPlatform(0,0);
+		addPlatform(0,0);
 		addPlatform(0,0);
 		addPlatform(0,0);
 		addPlatform(0,0);
@@ -34,7 +41,6 @@ public class Obstacles
 		for(int i = 0; i < platformArray.size; i++)
 		{
 			platformArray.get(i).draw(batch);
-			System.out.println(i);
 		}
 	}
 	

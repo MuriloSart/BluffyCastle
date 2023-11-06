@@ -11,6 +11,6 @@ public class EndLine extends TriggerBuilder
 	public EndLine(World world)
 	{
 		super(world);
-		setTrigger(width, height, 0 , -24, "StartLine");
+		setTrigger(width, height, 0 , -24);
 	}
 }

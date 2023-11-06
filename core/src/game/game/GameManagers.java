@@ -71,7 +71,7 @@ public class GameManagers extends Game
 		debugRenderer = new Box2DDebugRenderer();
 		spawnPlatforms = new SpawnPlatforms(obstacles);
 		
-		world.setContactListener(new ContactsListener(player, spawnPlatforms));
+		world.setContactListener(new ContactsListener(player, spawnPlatforms, obstacles));
 	}
 	
 	@Override
@@ -81,16 +81,25 @@ public class GameManagers extends Game
 		player.handleInputs();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        spawnPlatforms.MovingPlatforms();
 		
 		batch.begin();
 		obstacles.draw(batch);
 		player.draw(batch);
 		batch.end();
 		debugRenderer.render(world, camera.combined);
+		HandlePlatforms();
 	}
 	
-	
+	private void HandlePlatforms()
+	{
+		for(int i = 0; i < spawnPlatforms.platforms.platformArray.size; i++)
+		{
+			if(obstacles.platformArray.get(i).body.getPosition().y <= endLine.body.getPosition().y)
+			{
+				spawnPlatforms.RespawningPlatforms(i);
+			}
+		}
+	}
 	
 	private void update()
 	{
