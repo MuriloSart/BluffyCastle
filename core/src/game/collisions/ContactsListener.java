@@ -33,7 +33,7 @@ public class ContactsListener implements ContactListener
 		if(fa == null || fb == null) return;
 		if(fa.getUserData() == null || fb.getUserData() == null) return;
 		
-		//=========================== Colisao do Player com a Plataforma para poder Pular ===========================//
+		//=========================== Colisoes do Player===========================//
 		
 		if(fa.getUserData() instanceof Player || fb.getUserData() instanceof Player)//Definindo as colisoes do Player
 		{

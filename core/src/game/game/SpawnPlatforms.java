@@ -34,8 +34,8 @@ public class SpawnPlatforms
 	 {
 		  for(int i = 1; i < platforms.platformArray.size; i++)
 		  {
-			  platforms.platformArray.get(i).body.setTransform(xPositionsArray.get(i), yPositionsArray.get(RandomNumber.CustomRandom(0, yPositionsArray.size - 1)) + 10, 0);
-			  MovingPlatforms(i, RandomNumber.CustomRandom(10, 15));
+			  platforms.platformArray.get(i).body.setTransform(xPositionsArray.get(i), yPositionsArray.get(RandomNumber.CustomRandom(0, yPositionsArray.size - 1)), 0);
+			  MovingPlatforms(i, RandomNumber.CustomRandom(7, 14));
 		  }
 	 }
 	 
@@ -46,7 +46,7 @@ public class SpawnPlatforms
 	 
 	 public void RespawningPlatforms(int index)
 	 {
-		 platforms.platformArray.get(index).body.setTransform(xPositionsArray.get(index), 23, 0);
-		 MovingPlatforms(index, RandomNumber.CustomRandom(7, 10));
+		 platforms.platformArray.get(index).body.setTransform(xPositionsArray.get(index), 22, 0);
+		 MovingPlatforms(index, RandomNumber.CustomRandom(7, 14));
 	 }
 }
